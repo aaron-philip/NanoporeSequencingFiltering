@@ -1,9 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+import math
 np.random.seed(123456789)
 
 tspan =  np.linspace(0, 10*np.pi, 1000) 
-
+teval = 0
 Vin = lambda t: np.sin(t)
 mynoise = 1*np.random.randn(*Vin(tspan).shape)
 Vinarray = Vin(tspan) + mynoise
@@ -30,6 +32,15 @@ plt.show()
 
 Voutarray = np.zeros_like(Vinarray)
 
+#Used to find t with the scipy integraton
+def find_nearest(array,value):
+    idx = np.searchsorted(array, value, side="left")
+    if idx > 0 and (idx == len(array) or math.fabs(value - array[idx-1]) < math.fabs(value - array[idx])):
+        return idx-1
+    else:
+        return idx
+
+#Forward Euler timestepped
 def lowpass(tstep, Vin, tau):
     Vout = np.zeros_like(Vin)
     for t in range(Vin.size-1):
@@ -42,6 +53,16 @@ tstep = tspan[1]-tspan[0]
 plt.plot(tspan,lowpass(tstep, Vinarray, tau))
 plt.show()
 
+
+def f(t, y):  
+    dydt = (1/tau)*(Vinarray[find_nearest(tspan, t)]-y)
+    return dydt
+
+sol = solve_ivp(lambda t, y: f(t, y),[tspan[0], tspan[-1]],[0], t_eval=tspan)
+plt.plot(sol.t, sol.y[0,:])
+#ax.plot(sol.t, x(sol.t), 'k-', label='Input')
+#ax.plot(sol.t, sol.y[0], 'k--', label='Output')
+#ax.legend(loc='best')
 
 
 
