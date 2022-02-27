@@ -1,4 +1,15 @@
 #writing a .rawsig file for cwDTW_nano use
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+from scipy import signal
+from scipy.optimize import curve_fit
+from scipy.optimize import basinhopping
+import math
+from typing import Optional
+import os
+
 path_to_fast5 = '/Users/aaronphilip/ScienceFair/projects/NanoporeSequencingFiltering/DeepSimulator/artificial_human_chr22_DeepSimu/fast5'
 fname = 'signal_0_30d8bd50-3aae-4eab-95da-2083e9df0631'
 os.system('h5ls -d %s/%s.fast5/Raw/Reads/Read_981/Signal >  %s/%s.data' % (path_to_fast5, fname, path_to_fast5, fname))

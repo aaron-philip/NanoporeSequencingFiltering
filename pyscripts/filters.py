@@ -1,4 +1,16 @@
 #root class for all filters
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+from scipy import signal
+from scipy.optimize import curve_fit
+from scipy.optimize import basinhopping
+import math
+from typing import Optional
+import os
+
+
 class Filters:
     def __init__(self, tspan, signal):
         self.tspan = tspan
