@@ -1,11 +1,5 @@
 #writing a .rawsig file for cwDTW_nano use
 
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.integrate import solve_ivp
-from scipy import signal
-from scipy.optimize import curve_fit
-from scipy.optimize import basinhopping
 import math
 from typing import Optional
 import os
